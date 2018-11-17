@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Start Agro Col</string>
+    <string name="mensaje_recuperar_contasenia">Por favor ingresa tu correo, para poder recuperar tu contraseña,
+    se enviará un mensaje indicándote las instrucciones.</string>
+</resources>

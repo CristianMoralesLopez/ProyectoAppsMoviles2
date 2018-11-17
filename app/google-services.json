@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "506070323150",
+    "firebase_url": "https://prueba-e64e0.firebaseio.com",
+    "project_id": "prueba-e64e0",
+    "storage_bucket": "prueba-e64e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506070323150:android:faa21cb7e7f4a5c5",
+        "android_client_info": {
+          "package_name": "co.potes.icesi.startagrocol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506070323150-f85bb46jt8q67ta5alncp0f7sdln25g6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.potes.icesi.startagrocol",
+            "certificate_hash": "cba6c928e88be76299fc8104b02ec250e0d76c40"
+          }
+        },
+        {
+          "client_id": "506070323150-24tvjoc2jmca5jmghq4j6246ull446p2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCf13fzcJMhiNDSId4uaCDF--2fXyi6U8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506070323150-24tvjoc2jmca5jmghq4j6246ull446p2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

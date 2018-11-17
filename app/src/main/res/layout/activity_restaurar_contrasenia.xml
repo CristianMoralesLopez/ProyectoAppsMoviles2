@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/fondo_login"
+    >
+
+
+    <TextView
+        android:layout_marginTop="210dp"
+
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:text="@string/mensaje_recuperar_contasenia"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:hint="Correo"
+        android:background="@drawable/forma_edit_text"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_recuperar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recuperar contraseña"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/colorPrimary"/>
+
+
+
+
+</LinearLayout>
