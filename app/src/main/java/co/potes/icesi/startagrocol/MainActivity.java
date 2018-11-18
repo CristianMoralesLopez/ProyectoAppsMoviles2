@@ -1,8 +1,12 @@
 package co.potes.icesi.startagrocol;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,10 +26,27 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import co.potes.icesi.*;
 
 import co.potes.icesi.startagrocol.model.Usuario;
+import util.UtilDomi;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+    private static final int REQUEST_GALLERY = 101;
+
+
+
 
 
     FirebaseDatabase db;
@@ -43,17 +62,28 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imageButton;
     private CheckBox terminos;
     private GoogleApiClient mgGoogleApiClient;
+    private String path;
+    private FirebaseStorage firebaseStorage;
 
 
-    @SuppressLint("WrongViewCast")
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        }, 11);
+
+
+
 
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
 
 
         txt = new EditText[5];
@@ -75,6 +105,16 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imagePerfil);
         imageButton = findViewById(R.id.btnCargarFoto);
 
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(i,REQUEST_GALLERY);
+            }
+        });
+
 
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 String contraseña1 = txt[3].getText().toString();
                 String contraseña2 = txt[4].getText().toString();
                 String tipo = "";
+
                 boolean bandera = true;
 
                 if (nombre.equals("")) {
@@ -202,9 +243,31 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "registro Exitoso", Toast.LENGTH_SHORT).show();
                     usuario.setUid(auth.getCurrentUser().getUid());
 
+                    String key = auth.getCurrentUser().getUid();
+
                     DatabaseReference reference = db.getReference().child(usuario.getTipo()).child(usuario.getUid());
 
                     reference.setValue(usuario);
+
+                    if(path != null){
+                        try {
+                            StorageReference ref = firebaseStorage.getReference().child("Proyectos").child(key).child("fotoPerfil");
+                            FileInputStream file = new FileInputStream(new File(path));
+                            //Sube la foto
+                            ref.putStream(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(MainActivity.this,"Registro realizado correctamente",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }catch (FileNotFoundException ex){
+
+                        }
+                    }
+
+
 
 
                     //aqui me voy para la otra actividad
@@ -218,6 +281,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_GALLERY && resultCode == RESULT_OK){
+            path = UtilDomi.getPath(MainActivity.this, data.getData());
+            Bitmap m = BitmapFactory.decodeFile(path);
+            imageView.setImageDrawable(null);
+            imageView.setImageResource(0);
+            imageView.setImageBitmap(m);
+
+
+
+        }
     }
 
 

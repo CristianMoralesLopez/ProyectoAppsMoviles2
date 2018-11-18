@@ -28,9 +28,10 @@ public class Background extends AppCompatActivity {
     private NavigationView navegacionMenuLateral;
     private Toolbar tb;
 
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private Button cerrarSesion;
+
 
 
     private Fragment_Home fragment_home;
@@ -49,10 +50,28 @@ public class Background extends AppCompatActivity {
         setToolbar();
         auth = FirebaseAuth.getInstance();
 
+
+
         fragment_home = new Fragment_Home();
         fragment_mis_proyectos =new Fragment_Mis_Proyectos();
         fragment_proyectos = new Fragment_Proyectos();
         fragment_publicar = new Fragment_Publicar();
+
+
+        if (auth.getCurrentUser()!=null){
+
+            Bundle datos = new Bundle();
+
+            datos.putString("usuario",auth.getCurrentUser().getUid());
+
+            fragment_publicar.setArguments(datos);
+
+
+
+
+        }
+
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment_home);

@@ -52,6 +52,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,7 +176,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         String contraseña = "logueado con google";
         String tipo = Usuario.EMPRENDEDOR;
 
-        Usuario usuario = new Usuario();
+        final Usuario usuario = new Usuario();
 
         usuario.setUid(id);
         usuario.setNombre(nombre);
@@ -184,13 +185,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         usuario.setContrasenia(contraseña);
         usuario.setTipo(tipo);
 
-        DatabaseReference reference = db.getReference().child(usuario.getTipo()).child(id);
+        final DatabaseReference reference = db.getReference().child(usuario.getTipo()).child(id);
 
-        reference.setValue(usuario);
+
         auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()){
+                if (task.isSuccessful()){
+                    reference.setValue(usuario);
 
                     Toast.makeText(getApplicationContext(),"la autentificacion con google fallo",Toast.LENGTH_SHORT).show();
                 }
