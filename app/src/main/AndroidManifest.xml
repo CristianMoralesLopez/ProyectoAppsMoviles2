@@ -15,15 +15,18 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity android:name=".Login" />
-        <activity android:name=".Splash">
+        <activity android:name=".Splash" />
+        <activity android:name=".RestaurarContrasenia" />
+        <activity android:name=".Background" />
+        <activity android:name=".HomeSinRegistro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RestaurarContrasenia" />
-        <activity android:name=".Background"></activity>
+        <activity android:name=".BannerEmprendedor" />
+        <activity android:name=".BannerInversor"></activity>
     </application>
 
 </manifest>

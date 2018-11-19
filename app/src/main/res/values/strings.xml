@@ -2,4 +2,15 @@
     <string name="app_name">Start Agro Col</string>
     <string name="mensaje_recuperar_contasenia">Por favor ingresa tu correo, para poder recuperar tu contraseña,
     se enviará un mensaje indicándote las instrucciones.</string>
+    <string name="mensaje_emprendedor">Hola emprendedor tiene una iniciativa agricola que quieres sacar adelante pero no posees los
+        recursos necesarios para hacerlo esta es tu oportunidad para que tu iniciativa se convierta realidad
+        Star Agro Colombia es la red mas grande en Colombia de Crowdfunding enfocado en iniciativas
+        agrícolas sin la necesidad de realizar grandes papeleos ni necesidad de muchos requisitos aquí
+        podrás encontrar los fondos necesarios para tu proyecto.</string>
+
+    <string name="mensaje_Inversor">Hola inversor si quieres apoyar la economía agricola Colombiana. Star Agro Colombia es una
+        plataforma de Crowdfunding donde podrás encontrar iniciativas emprendedoras colombianas, que
+        solicitan fondos para llevar a cabo sus iniciativas. Donde tu dinero invertido estará seguro y
+        obtendrás ganancias de lo invertido y este ayudara a cumplir los sueños de estos emprendedores.</string>
+
 </resources>

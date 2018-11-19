@@ -1,5 +1,4 @@
 package co.potes.icesi.startagrocol.model;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -18,19 +17,13 @@ import java.util.ArrayList;
 
 import co.potes.icesi.startagrocol.R;
 
-public class AdaptadorListaHome extends BaseAdapter {
+public class AdaptadorListaHomeSinRegistrar extends BaseAdapter {
     private Fragment fragment;
     private ArrayList<Proyecto> proyectos;
     private Activity activity ;
 
 
-    public AdaptadorListaHome(Fragment fragment) {
-        this.fragment = fragment;
-        proyectos = new ArrayList<Proyecto>();
-    }
-
-
-    public AdaptadorListaHome(Activity activity) {
+    public AdaptadorListaHomeSinRegistrar(Activity activity) {
         this.activity = activity;
         proyectos = new ArrayList<Proyecto>();
     }
@@ -52,7 +45,7 @@ public class AdaptadorListaHome extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(fragment.getContext());
+        LayoutInflater inflater = LayoutInflater.from(activity);
         View renglon = inflater.inflate(R.layout.xmlisthome, null, false);
         TextView txtTiulto = renglon.findViewById(R.id.lista);
         TextView txtDescripcion = renglon.findViewById(R.id.usuario);
@@ -75,7 +68,7 @@ public class AdaptadorListaHome extends BaseAdapter {
 
 
     public void agregarLista (Proyecto play){
-       proyectos.add(play);
+        proyectos.add(play);
         notifyDataSetChanged();
     }
 
