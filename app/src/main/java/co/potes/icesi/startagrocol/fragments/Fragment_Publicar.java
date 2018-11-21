@@ -1,5 +1,6 @@
 package co.potes.icesi.startagrocol.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,16 +14,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,6 +55,8 @@ public class Fragment_Publicar extends Fragment {
     private String path2;
 
 
+    private Spinner metodoInversion;
+
 
     private FirebaseDatabase db;
 
@@ -64,6 +72,15 @@ public class Fragment_Publicar extends Fragment {
     private ImageView imagenPrincipal;
     private ImageView imagenSecundaria;
     private TextView txtFecha;
+    private EditText et_monto;
+
+    private int ano;
+    private int mes;
+    private int dia;
+
+    private int ano1;
+    private int mes1;
+    private int dia1;
 
 
     @Nullable
@@ -71,12 +88,31 @@ public class Fragment_Publicar extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_publicar, container, false);
 
+        firebaseStorage = FirebaseStorage.getInstance();
+
+        metodoInversion = v.findViewById(R.id.spin);
+
+
+
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.opcionesMetodoPago,android.R.layout.simple_spinner_item);
+
+
+        metodoInversion.setAdapter(adapter);
+
+
+
 
         id = getArguments().getString("usuario");
 
         db = FirebaseDatabase.getInstance();
 
         et_titulo = v.findViewById(R.id.et_titulo);
+
+        et_caracteristicas = v.findViewById(R.id.et_caracteristicas);
+
+        et_descripcion = v.findViewById(R.id.et_descripcion);
 
         btnAgregarFotoPrimaria = v.findViewById(R.id.btn_agregarfotoPrim);
         btnAgregarFotoSecundaria = v.findViewById(R.id.btn_agregarfotoSec);
@@ -89,6 +125,8 @@ public class Fragment_Publicar extends Fragment {
         et_descripcion = v.findViewById(R.id.et_descripcion);
 
         txtFecha = v.findViewById(R.id.txtFecha);
+
+        et_monto = v.findViewById(R.id.et_monto);
 
 
         btnAgregarProyecto = v.findViewById(R.id.btn_guardar);
@@ -123,6 +161,101 @@ public class Fragment_Publicar extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                boolean bandera = false;
+                String titulo = et_titulo.getText().toString();
+                String descripcion = et_descripcion.getText().toString();
+                String monto = et_monto.getText().toString();
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy");
+
+                boolean fecha = true;
+
+                int valorNecesario = 0;
+
+                boolean convertido = false;
+
+                String metodo = "";
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    metodo = metodoInversion.getTransitionName();
+                }
+
+
+                try {
+
+                    valorNecesario = Integer.parseInt(monto);
+
+
+                    Date date1 = simpleDateFormat.parse("" + dia + "-" + mes + "-" + ano);
+
+                    Date date2 = simpleDateFormat.parse("" + dia1 + "-" + mes1 + "-" + ano1);
+
+                    int valor = date1.compareTo(date2);
+
+                    if (valor > 0) {
+                        fecha = true;
+                    } else if (valor < 0) {
+                        fecha = false;
+                    } else if (valor == 0) {
+                        fecha = true;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (NumberFormatException ex) {
+
+                    convertido = true;
+                }
+
+
+                if(titulo.equals("")){
+
+                    bandera = true;
+
+                    Toast.makeText(getActivity(),"Introduzca un titulo valido",Toast.LENGTH_SHORT).show();
+                }
+
+                if (descripcion.equals("")){
+
+                    bandera= true;
+                    Toast.makeText(getActivity(),"Introduzca una descripcion valida",Toast.LENGTH_SHORT).show();
+                }
+                if (path1.equals("")|| path2.equals("")){
+
+                    bandera= true;
+                    Toast.makeText(getActivity(),"Debe de cargar minimo dos imagenes para su proyecto",Toast.LENGTH_SHORT).show();
+                }
+
+                if(fecha){
+
+                    bandera = true;
+
+                    Toast.makeText(getActivity(),"Debe ingresar una fecha mayor a la actual",Toast.LENGTH_SHORT).show();
+                }
+
+
+                if (convertido){
+
+                    bandera = true;
+
+                    Toast.makeText(getActivity(),"ingrese un monto valido",Toast.LENGTH_SHORT).show();
+                }
+
+
+                if (!bandera){
+
+                    Toast.makeText(getActivity(),"todo esta correcto",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
+
+
+
+
+
                 DatabaseReference reference = firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").push();
 
                 Proyecto nuevo = new Proyecto();
@@ -141,21 +274,26 @@ public class Fragment_Publicar extends Fragment {
 
                 final Calendar c = Calendar.getInstance();
 
-                int dia = c.get(Calendar.DAY_OF_MONTH);
+                dia = c.get(Calendar.DAY_OF_MONTH);
 
-                int mes = c.get(Calendar.MONTH);
+                mes = c.get(Calendar.MONTH);
 
-                int ano = c.get(Calendar.YEAR);
+                ano = c.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        txtFecha.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+
+
+                        ano1= year;
+                        mes1 = month;
+                        dia1 = dayOfMonth;
+
+                        txtFecha.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
 
                     }
-                },ano,mes,dia);
-
+                }, ano, mes, dia);
 
 
                 datePickerDialog.show();
