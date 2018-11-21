@@ -63,7 +63,7 @@ public class HomeSinRegistro extends AppCompatActivity {
 
                     proyecto.setDescripcion(descripcion);
                     proyecto.setTitulo(titulo);
-                    proyecto.setUrl(url);
+                    proyecto.setImagenPrimaria(url);
 
 
                     adaptadorListas.agregarLista(proyecto);

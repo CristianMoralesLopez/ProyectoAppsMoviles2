@@ -59,7 +59,7 @@ public class AdaptadorListaHomeSinRegistrar extends BaseAdapter {
 
 
 
-        Picasso.get().load(proyectos.get(position).getUrl()).into(image);
+        Picasso.get().load(proyectos.get(position).getImagenPrimaria()).into(image);
 
 
 

@@ -97,7 +97,7 @@ public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnect
 
                     proyecto.setDescripcion(descripcion);
                     proyecto.setTitulo(titulo);
-                    proyecto.setUrl(url);
+                    proyecto.setImagenPrimaria(url);
 
 
                     adaptadorListas.agregarLista(proyecto);
