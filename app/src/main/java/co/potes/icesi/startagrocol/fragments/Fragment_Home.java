@@ -88,9 +88,9 @@ public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnect
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String titulo =(String) postSnapshot.child("Titulo").getValue();
-                    String url = (String) postSnapshot.child("url").getValue();
-                    String descripcion = (String) postSnapshot.child("Descripcion").getValue();
+                    String titulo =(String) postSnapshot.child("titulo").getValue();
+                    String url = (String) postSnapshot.child("imagenPrimaria").getValue();
+                    String descripcion = (String) postSnapshot.child("descripcion").getValue();
 
 
                     Proyecto proyecto = new Proyecto();

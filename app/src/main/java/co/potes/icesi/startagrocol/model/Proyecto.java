@@ -10,13 +10,39 @@ public class Proyecto {
     private String descripcion;
     private String titulo;
     private String id;
-    private String Resumen;
+    private String resumen;
     private String imagenSecundaria;
     private String fechaCierreProyecto;
     private String valorRecolectado;
     private String MetodoInversion;
     private String tipoProyecto;
+    private String idPropietario;
+    private String valorProyecto;
 
+
+    public String getResumen() {
+        return resumen;
+    }
+
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    public String getValorProyecto() {
+        return valorProyecto;
+    }
+
+    public void setValorProyecto(String valorProyecto) {
+        this.valorProyecto = valorProyecto;
+    }
+
+    public String getIdPropietario() {
+        return idPropietario;
+    }
+
+    public void setIdPropietario(String idPropietario) {
+        this.idPropietario = idPropietario;
+    }
 
     public Proyecto() {
     }
@@ -47,13 +73,6 @@ public class Proyecto {
         this.imagenPrimaria = imagenPrimaria;
     }
 
-    public String getResumen() {
-        return Resumen;
-    }
-
-    public void setResumen(String resumen) {
-        Resumen = resumen;
-    }
 
     public String getImagenSecundaria() {
         return imagenSecundaria;

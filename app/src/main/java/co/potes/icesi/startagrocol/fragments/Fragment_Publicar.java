@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimatedImageDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -23,10 +24,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.DataInput;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -93,15 +103,10 @@ public class Fragment_Publicar extends Fragment {
         metodoInversion = v.findViewById(R.id.spin);
 
 
-
-
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.opcionesMetodoPago,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.opcionesMetodoPago, android.R.layout.simple_spinner_item);
 
 
         metodoInversion.setAdapter(adapter);
-
-
 
 
         id = getArguments().getString("usuario");
@@ -166,6 +171,9 @@ public class Fragment_Publicar extends Fragment {
                 String titulo = et_titulo.getText().toString();
                 String descripcion = et_descripcion.getText().toString();
                 String monto = et_monto.getText().toString();
+                String resumen = et_caracteristicas.getText().toString();
+
+                String fechaCierre = txtFecha.getText().toString();
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy");
 
@@ -180,6 +188,10 @@ public class Fragment_Publicar extends Fragment {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     metodo = metodoInversion.getTransitionName();
                 }
+
+
+
+
 
 
                 try {
@@ -208,101 +220,234 @@ public class Fragment_Publicar extends Fragment {
                 }
 
 
-                if(titulo.equals("")){
+                if (titulo.equals("")) {
 
                     bandera = true;
 
-                    Toast.makeText(getActivity(),"Introduzca un titulo valido",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Introduzca un titulo valido", Toast.LENGTH_SHORT).show();
                 }
 
-                if (descripcion.equals("")){
+                if (descripcion.equals("")) {
 
-                    bandera= true;
-                    Toast.makeText(getActivity(),"Introduzca una descripcion valida",Toast.LENGTH_SHORT).show();
+                    bandera = true;
+                    Toast.makeText(getActivity(), "Introduzca una descripcion valida", Toast.LENGTH_SHORT).show();
                 }
-                if (path1.equals("")|| path2.equals("")){
+                if (path1.equals("") || path2.equals("")) {
 
-                    bandera= true;
-                    Toast.makeText(getActivity(),"Debe de cargar minimo dos imagenes para su proyecto",Toast.LENGTH_SHORT).show();
+                    bandera = true;
+                    Toast.makeText(getActivity(), "Debe de cargar minimo dos imagenes para su proyecto", Toast.LENGTH_SHORT).show();
                 }
 
-                if(fecha){
+                if (fecha) {
 
                     bandera = true;
 
-                    Toast.makeText(getActivity(),"Debe ingresar una fecha mayor a la actual",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Debe ingresar una fecha mayor a la actual", Toast.LENGTH_SHORT).show();
                 }
 
 
-                if (convertido){
+                if (convertido) {
 
                     bandera = true;
 
-                    Toast.makeText(getActivity(),"ingrese un monto valido",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "ingrese un monto valido", Toast.LENGTH_SHORT).show();
                 }
 
 
-                if (!bandera){
+                if (!bandera) {
 
-                    Toast.makeText(getActivity(),"todo esta correcto",Toast.LENGTH_SHORT).show();
-                }
-
+                    Toast.makeText(getActivity(), "todo esta correcto", Toast.LENGTH_SHORT).show();
 
 
 
 
+                    try {
+
+                        final DatabaseReference reference = firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").push();
+
+                        DatabaseReference reference2 = db.getReference().child("Proyectos").child(reference.getKey());
+                        final Proyecto nuevo = new Proyecto();
+
+                        nuevo.setId(reference.getKey());
+                        nuevo.setTitulo(titulo);
+                        nuevo.setDescripcion(descripcion);
+                       nuevo.setResumen(resumen);
+                        nuevo.setIdPropietario(id);
+                        nuevo.setFechaCierreProyecto(fechaCierre);
+                        nuevo.setValorProyecto(monto);
+                        nuevo.setMetodoInversion("credito");
+                        nuevo.setImagenPrimaria("null1");
+                        nuevo.setImagenSecundaria("null2");
+                        reference.setValue(nuevo);
+                        reference2.setValue(nuevo);
+
+
+
+
+                        final StorageReference ref = firebaseStorage.getReference().child("Proyectos").child(id).child(reference.getKey()).child("imagenPrincipal.jpg");
+                        final StorageReference ref2 = firebaseStorage.getReference().child("Proyectos").child(id).child(reference.getKey()).child("imagenSecundaria.jpg");
+
+
+                        FileInputStream file1 = new FileInputStream(new File(path1));
+                        FileInputStream file2 = new FileInputStream(new File(path2));
+
+                        final boolean[] fotos = new boolean[2];
+                        boolean foto2 = false;
+
+                        final String[] urlPrincipal = new String[2];
+
+                        //Sube la foto
+                        ref.putStream(file1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    fotos[0] = true;
+
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+
+                                            urlPrincipal[0] =  uri.toString();
+
+
+                                            Toast.makeText(getActivity(),urlPrincipal[0],Toast.LENGTH_SHORT).show();
+
+                                            DatabaseReference uri1= firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").child(reference.getKey()).
+                                                    child("imagenPrimaria");
+
+
+                                            DatabaseReference uri2= firebaseDatabase.getReference().child("Proyectos").child(reference.getKey()).child("imagenPrimaria");
+
+                                            uri1.setValue(urlPrincipal[0]);
+                                            uri2.setValue(urlPrincipal[0]);
+
+
+
+                                        }
+                                    });
+
+
+
+                                }
+                            }
+                        });
+
+
+
+
+                        String ruta2 = urlPrincipal[1];
+
+
+
+                        nuevo.setImagenSecundaria(ruta2);
 
 
 
 
 
-                DatabaseReference reference = firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").push();
-
-                Proyecto nuevo = new Proyecto();
-
-                nuevo.setId(reference.getKey());
-                nuevo.setTitulo(et_titulo.getText().toString());
-                nuevo.setDescripcion(et_descripcion.getText().toString());
-                reference.setValue(nuevo);
-            }
-        });
-
-
-        btnFecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Calendar c = Calendar.getInstance();
-
-                dia = c.get(Calendar.DAY_OF_MONTH);
-
-                mes = c.get(Calendar.MONTH);
-
-                ano = c.get(Calendar.YEAR);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
 
 
-                        ano1= year;
-                        mes1 = month;
-                        dia1 = dayOfMonth;
 
-                        txtFecha.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+
+                        ref2.putStream(file2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    fotos[1] = true;
+                                    ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+
+                                            urlPrincipal[1] =  uri.toString();
+                                            Toast.makeText(getActivity(),urlPrincipal[1],Toast.LENGTH_SHORT).show();
+
+                                            DatabaseReference uri1= firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").child(reference.getKey()).
+                                                    child("imagenSecundaria");
+
+                                            DatabaseReference uri2= firebaseDatabase.getReference().child("Proyectos").child(reference.getKey()).child("imagenSecundaria");
+
+                                            uri2.setValue(urlPrincipal[1]);
+
+                                            uri1.setValue(urlPrincipal[1]);
+
+
+
+
+
+                                        }
+                                    });
+
+
+                                }
+                            }
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    } catch (FileNotFoundException ex) {
 
                     }
-                }, ano, mes, dia);
 
 
-                datePickerDialog.show();
+
+
+
             }
-        });
+
+
+        }
+    });
+
+
+        btnFecha.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+
+        final Calendar c = Calendar.getInstance();
+
+        dia = c.get(Calendar.DAY_OF_MONTH);
+
+        mes = c.get(Calendar.MONTH);
+
+        ano = c.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+
+                ano1 = year;
+                mes1 = month;
+                dia1 = dayOfMonth;
+
+                txtFecha.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+
+            }
+        }, ano, mes, dia);
+
+
+        datePickerDialog.show();
+    }
+    });
 
 
         return v;
-    }
+}
 
 
     @Override
