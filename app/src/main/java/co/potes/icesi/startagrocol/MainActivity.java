@@ -365,9 +365,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             path = UtilDomi.getPath(MainActivity.this, data.getData());
             Bitmap m = BitmapFactory.decodeFile(path);
-            imageView.setImageDrawable(null);
-
-            imageView.setImageResource(0);
+            imageView.setBackground(null);
+            
             imageView.setImageBitmap(m);
 
 
