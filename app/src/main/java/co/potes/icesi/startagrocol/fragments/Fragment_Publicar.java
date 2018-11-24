@@ -1,5 +1,6 @@
 package co.potes.icesi.startagrocol.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +59,10 @@ public class Fragment_Publicar extends Fragment {
     public static final int IMAGEN2 = 1002;
 
 
+
+
+
+
     /*
     RUTAS PARA LAS FOTOS
      */
@@ -93,10 +99,20 @@ public class Fragment_Publicar extends Fragment {
     private int dia1;
 
 
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_publicar, container, false);
+
+
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        }, 11);
 
         firebaseStorage = FirebaseStorage.getInstance();
 

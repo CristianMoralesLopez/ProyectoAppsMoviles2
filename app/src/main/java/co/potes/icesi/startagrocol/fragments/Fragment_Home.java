@@ -35,7 +35,7 @@ import co.potes.icesi.startagrocol.R;
 import co.potes.icesi.startagrocol.model.AdaptadorListaHome;
 import co.potes.icesi.startagrocol.model.Proyecto;
 
-public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
+public class Fragment_Home extends Fragment  {
 
     private ImageButton btnBusqueda;
     private EditText txtBusqueda;
@@ -43,8 +43,6 @@ public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnect
     private AdaptadorListaHome adaptadorListas;
     private ArrayList<Proyecto> proyectos;
     private FirebaseDatabase db;
-    private GoogleApiClient googleApiClient;
-    private FirebaseAuth auth;
 
 
 
@@ -58,8 +56,7 @@ public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnect
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
-        googleApiClient = new GoogleApiClient.Builder(getActivity()).enableAutoManage(getActivity(),this).
-                addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -135,41 +132,6 @@ public class Fragment_Home extends Fragment implements GoogleApiClient.OnConnect
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
-        if (opr.isDone()){
-
-            GoogleSignInResult result = opr.get();
-
-            chequeoLogueo(result);
-
-        }else{
-
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    chequeoLogueo(googleSignInResult);
-                }
-            });
-        }
-    }
-
-    private void chequeoLogueo(GoogleSignInResult result) {
-
-        if(result.isSuccess()){
-
-           txtBusqueda.setText(result.getSignInAccount().getPhotoUrl().toString());
-        }
 
 
-    }
-
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

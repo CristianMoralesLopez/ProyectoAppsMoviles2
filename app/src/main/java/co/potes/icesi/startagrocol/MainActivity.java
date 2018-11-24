@@ -17,9 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,38 +32,29 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import co.potes.icesi.*;
-
 import co.potes.icesi.startagrocol.model.Usuario;
 import util.UtilDomi;
 
 public class MainActivity extends AppCompatActivity {
 
 
-
     private static final int REQUEST_GALLERY = 101;
-
-
-
 
 
     FirebaseDatabase db;
     FirebaseAuth auth;
 
     private EditText[] txt;
-    private EditText[] labels;
-    private RadioGroup[] groups;
+
+
     private RadioButton inversor;
     private RadioButton emprendedor;
     private Button btnRegistrarse;
     private ImageView imageView;
     private ImageButton imageButton;
     private CheckBox terminos;
-    private GoogleApiClient mgGoogleApiClient;
     private String path;
     private FirebaseStorage firebaseStorage;
-
-
 
 
     @Override
@@ -73,13 +62,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        /*
+        permisos para acceder a la galeria
+         */
+
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
         }, 11);
 
-
-
+        /*instancias de firebase
+          */
 
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -88,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         txt = new EditText[5];
 
+        /*
+        Textfields para la toma de datos
+         */
+
 
         txt[0] = findViewById(R.id.txtNombreRegistro);
         txt[1] = findViewById(R.id.txtCorreoRegistro);
@@ -95,15 +93,38 @@ public class MainActivity extends AppCompatActivity {
         txt[3] = findViewById(R.id.txtcontraseña1Registro);
         txt[4] = findViewById(R.id.txtcontraseña2Registro);
 
+
+        /*
+        Boton para registrarse
+         */
+
         btnRegistrarse = findViewById(R.id.btnRegistrarse);
+
+        /*elementos graficos para definir el tipo de usuario
+         */
 
         inversor = findViewById(R.id.radioButtonInversor);
         emprendedor = findViewById(R.id.radioButtonEmprendedor);
 
+       /*checbox para los terminos y condiciones
+
+        */
+
         terminos = findViewById(R.id.checkboxTerminos);
 
+        /* image view para subir la foto del perfil que el usuario selecciona
+
+         */
+
         imageView = findViewById(R.id.imagePerfil);
+
+        /*image button para que el usuario suba la foto
+                 */
         imageButton = findViewById(R.id.btnCargarFoto);
+
+
+        /*listener para cuando el usuario pulse el boton de cargar foto
+         */
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,14 +132,26 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent();
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(i,REQUEST_GALLERY);
+                startActivityForResult(i, REQUEST_GALLERY);
             }
         });
+
+
+        /*
+        listener del boton  registrarse
+         */
+
 
 
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                /*se recolectan los datos ingresados por el usuario en los campos de texto
+                nombre, correo, telefono contraseña1 y contraseña 2 para confirmar que se ingresaron
+                las mismas contraseñas ademas del tipo de usuario a registrar
+                 */
 
 
                 String nombre = txt[0].getText().toString();
@@ -128,7 +161,16 @@ public class MainActivity extends AppCompatActivity {
                 String contraseña2 = txt[4].getText().toString();
                 String tipo = "";
 
+
+                /* si esta bandera llega hsta el final de este meotodo en true
+                significa que paso todas las verificaciones
+                 */
+
                 boolean bandera = true;
+
+                /*se verifica que el nombre no sea ""
+
+                 */
 
                 if (nombre.equals("")) {
 
@@ -137,11 +179,18 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                /*se verifica el correo                */
+
                 if (correo.contains("@") == false) {
 
                     Toast.makeText(MainActivity.this, "Introduzca un correo valido", Toast.LENGTH_SHORT).show();
                     bandera = false;
                 }
+
+
+                /* se verifica con las contraseñas ingresadas que sean iguales
+
+                 */
 
 
                 if ((!contraseña1.equals(contraseña2))) {
@@ -154,12 +203,19 @@ public class MainActivity extends AppCompatActivity {
                     bandera = false;
                 }
 
+                /*se verifican que el checbox de terminos y condiciones este chequeado
+
+                 */
+
                 if (!terminos.isChecked()) {
 
                     Toast.makeText(MainActivity.this, "Acepte los terminos y condicones para registrarse", Toast.LENGTH_SHORT).show();
                     bandera = false;
                 }
 
+                /*
+                se verifica que alguno de los dos tipos de los usuarios este seleccionado
+                 */
                 if (!emprendedor.isChecked() && !inversor.isChecked()) {
 
                     Toast.makeText(MainActivity.this, "Debes de elegir tu tipo de rol", Toast.LENGTH_SHORT).show();
@@ -171,29 +227,22 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                try {
 
-
-                    //   int numero = Integer.parseInt(telefono.trim());
-
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-
-
-                    // Toast.makeText(MainActivity.this, "Introduzca un numero de telefono valido", Toast.LENGTH_SHORT).show();
-                    // bandera = false;
-                    Log.e("numero fallando", telefono + " " + telefono.length());
-
-                }
+                /* si la variable bandera llega en true paso todas las verificaciones por lo tanto
+                se procede a registar el usuario
+                 */
 
 
                 if (bandera) {
 
+                    /*verifico que tipo de usuario es para registrarlo en la base de datos*/
+
 
                     if (Usuario.INVERSOR.equals(tipo)) {
 
-                        DatabaseReference reference = db.getReference().child("UsuarioInversor");
+
+                        // se crea un nuevo usuario y se le agregan los parametros
+
 
                         Usuario nuevo = new Usuario();
 
@@ -202,9 +251,17 @@ public class MainActivity extends AppCompatActivity {
                         nuevo.setTelefono(telefono);
                         nuevo.setContrasenia(contraseña1);
                         nuevo.setTipo(Usuario.INVERSOR);
+
+                        /* se envia al metodos que tiene asignada la responsabilidad de registrar el usuario
+                        pasando por parametro el objeto usuario creado
+                         */
+
                         registrarUsuario(nuevo);
 
                     } else if (tipo.equals(Usuario.EMPRENDEDOR)) {
+
+                        // se crea un nuevo usuario y se le agregan los parametros
+
 
 
                         Usuario nuevo = new Usuario();
@@ -214,6 +271,11 @@ public class MainActivity extends AppCompatActivity {
                         nuevo.setTelefono(telefono);
                         nuevo.setContrasenia(contraseña1);
                         nuevo.setTipo(Usuario.EMPRENDEDOR);
+
+
+                        /* se envia al metodos que tiene asignada la responsabilidad de registrar el usuario
+                        pasando por parametro el objeto usuario creado
+                         */
 
 
                         registrarUsuario(nuevo);
@@ -235,10 +297,21 @@ public class MainActivity extends AppCompatActivity {
     public void registrarUsuario(final Usuario usuario) {
 
 
+        /* este metodo la variable auth nos da el metodo de crear un usuario con usuario y contraseña
+        le pasamos el correo y la contraseña que se desea registrar
+
+         */
+
 
         auth.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getContrasenia()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                /*
+                la variable task del metodo oncomplete nos dice con el metodo task.issuccessful si
+                la operacion se realizo satisfactoriamente  se proceede a realizar el registro del usuario
+                en la base de datos
+                 */
                 if (task.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "registro Exitoso", Toast.LENGTH_SHORT).show();
                     usuario.setUid(auth.getCurrentUser().getUid());
@@ -249,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
                     reference.setValue(usuario);
 
-                    if(path != null){
+                    if (path != null) {
                         try {
                             StorageReference ref = firebaseStorage.getReference().child("Proyectos").child(key).child("fotoPerfil");
                             FileInputStream file = new FileInputStream(new File(path));
@@ -257,17 +330,15 @@ public class MainActivity extends AppCompatActivity {
                             ref.putStream(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(MainActivity.this,"Registro realizado correctamente",Toast.LENGTH_SHORT).show();
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, "Registro realizado correctamente", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-                        }catch (FileNotFoundException ex){
+                        } catch (FileNotFoundException ex) {
 
                         }
                     }
-
-
 
 
                     //aqui me voy para la otra actividad
@@ -284,15 +355,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /*
+
+     */
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_GALLERY && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             path = UtilDomi.getPath(MainActivity.this, data.getData());
             Bitmap m = BitmapFactory.decodeFile(path);
             imageView.setImageDrawable(null);
+
             imageView.setImageResource(0);
             imageView.setImageBitmap(m);
-
 
 
         }

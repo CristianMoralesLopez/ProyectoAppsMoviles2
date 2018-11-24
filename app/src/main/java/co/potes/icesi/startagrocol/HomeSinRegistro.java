@@ -1,6 +1,7 @@
 package co.potes.icesi.startagrocol;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +32,8 @@ public class HomeSinRegistro extends AppCompatActivity {
     private ArrayList<Proyecto> proyectos;
     private FirebaseDatabase db;
     private EditText txtbusqueda;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener fireAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,31 @@ public class HomeSinRegistro extends AppCompatActivity {
         txtbusqueda = findViewById(R.id.txtBusquedaSinRegistro);
 
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        fireAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                    Intent i = new Intent(HomeSinRegistro.this, Background.class);
+
+                    i.putExtra("usuario", user.getUid());
+
+                    startActivity(i);
+
+
+                    finish();
+
+
+                }
+
+
+            }
+        };
+
         db = FirebaseDatabase.getInstance();
 
         DatabaseReference reference = db.getReference().child("Proyectos");
@@ -54,7 +84,7 @@ public class HomeSinRegistro extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String titulo =(String) postSnapshot.child("titulo").getValue();
+                    String titulo = (String) postSnapshot.child("titulo").getValue();
                     String url = (String) postSnapshot.child("imagenPrimaria").getValue();
                     String descripcion = (String) postSnapshot.child("descripcion").getValue();
 
@@ -69,11 +99,7 @@ public class HomeSinRegistro extends AppCompatActivity {
                     adaptadorListas.agregarLista(proyecto);
 
 
-
-
-
                 }
-
 
 
             }
@@ -89,7 +115,7 @@ public class HomeSinRegistro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(HomeSinRegistro.this,BannerInversor.class);
+                Intent i = new Intent(HomeSinRegistro.this, BannerInversor.class);
                 startActivity(i);
                 finish();
 
@@ -101,7 +127,7 @@ public class HomeSinRegistro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(HomeSinRegistro.this,BannerEmprendedor.class);
+                Intent i = new Intent(HomeSinRegistro.this, BannerEmprendedor.class);
                 startActivity(i);
                 finish();
 
@@ -110,10 +136,25 @@ public class HomeSinRegistro extends AppCompatActivity {
         });
 
 
+    }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseAuth.addAuthStateListener(fireAuthStateListener);
+    }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+        if (fireAuthStateListener != null) {
+            firebaseAuth.removeAuthStateListener(fireAuthStateListener);
+        }
 
     }
 }
