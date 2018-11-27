@@ -12,14 +12,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
 import co.potes.icesi.startagrocol.fragments.Fragment_Mis_Proyectos;
-import co.potes.icesi.startagrocol.fragments.Fragment_Proyectos;
 import co.potes.icesi.startagrocol.fragments.Fragment_Publicar;
 
 public class Background extends AppCompatActivity {
@@ -36,7 +34,6 @@ public class Background extends AppCompatActivity {
 
     private Fragment_Home fragment_home;
     private Fragment_Mis_Proyectos fragment_mis_proyectos;
-    private Fragment_Proyectos fragment_proyectos;
     private Fragment_Publicar fragment_publicar;
 
 
@@ -54,7 +51,6 @@ public class Background extends AppCompatActivity {
 
         fragment_home = new Fragment_Home();
         fragment_mis_proyectos =new Fragment_Mis_Proyectos();
-        fragment_proyectos = new Fragment_Proyectos();
         fragment_publicar = new Fragment_Publicar();
 
 
@@ -104,12 +100,6 @@ public class Background extends AppCompatActivity {
                 else if (itemId == R.id.mis_proyectos) {
                     fragmentActual = fragment_mis_proyectos;
                     tb.setTitle("Mis proyectos");
-                }
-
-                else if (itemId == R.id.proyectos) {
-                    fragmentActual = fragment_proyectos;
-                    tb.setTitle("No configurado aun");
-
                 }
 
                 else if (itemId == R.id.publicar) {
