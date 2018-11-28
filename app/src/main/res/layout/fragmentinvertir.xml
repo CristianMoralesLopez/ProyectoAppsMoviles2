@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="5"
+        android:layout_marginTop="140dp">
+
+        <TextView
+            android:id="@+id/nombreRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Nombre"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtNombreRegistro"
+            android:background="@drawable/forma_edit_text"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo"
+            android:id="@+id/correoRegistro"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtCorreoRegistro"
+            android:background="@drawable/forma_edit_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefono"
+            android:id="@+id/telefonoRegistro"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtTelefonoRegistro"
+            android:background="@drawable/forma_edit_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:id="@+id/contraseña1Registro"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtcontraseña1Registro"
+            android:inputType="textPassword"
+            android:background="@drawable/forma_edit_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contrañseña"
+            android:id="@+id/contraseña2Registro"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtcontraseña2Registro"
+            android:inputType="textPassword"
+            android:background="@drawable/forma_edit_text"/>
+
+    </GridLayout>
+
+
+
+
+</LinearLayout>
