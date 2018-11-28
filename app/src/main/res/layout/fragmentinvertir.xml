@@ -11,16 +11,17 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:orientation="horizontal"
-        android:rowCount="5"
+        android:rowCount="4"
         android:layout_marginTop="140dp">
 
         <TextView
-            android:id="@+id/nombreRegistro"
+            android:id="@+id/txtTarjeta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
-            android:text="Nombre"
+            android:text="N° tarjeta"
+            android:textColor="#000"
             android:textStyle="bold"/>
 
         <EditText
@@ -34,10 +35,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Correo"
-            android:id="@+id/correoRegistro"
+            android:text="Fecha V"
+            android:id="@+id/txtVencimiento"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
+            android:textColor="#000"
             android:textStyle="bold"/>
 
         <EditText
@@ -46,15 +48,17 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:id="@+id/txtCorreoRegistro"
+            android:textColor="#000"
             android:background="@drawable/forma_edit_text"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Telefono"
+            android:text="CVV"
             android:id="@+id/telefonoRegistro"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
+            android:textColor="#000"
             android:textStyle="bold"/>
 
         <EditText
@@ -71,6 +75,7 @@
             android:id="@+id/contraseña1Registro"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
+            android:textColor="#000"
             android:textStyle="bold"/>
 
         <EditText
@@ -81,28 +86,16 @@
             android:id="@+id/txtcontraseña1Registro"
             android:inputType="textPassword"
             android:background="@drawable/forma_edit_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contrañseña"
-            android:id="@+id/contraseña2Registro"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:textStyle="bold"
-            />
 
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtcontraseña2Registro"
-            android:inputType="textPassword"
-            android:background="@drawable/forma_edit_text"/>
 
     </GridLayout>
 
-
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="40dp"
+       android:layout_marginTop="40dp"
+       android:text="Invertir"
+       android:layout_gravity="center"/>
 
 
 </LinearLayout>
