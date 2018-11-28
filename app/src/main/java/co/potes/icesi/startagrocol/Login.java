@@ -194,7 +194,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                 if (task.isSuccessful()){
                     reference.setValue(usuario);
 
-                    Toast.makeText(getApplicationContext(),"la autentificacion con google fallo",Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Login.this,Background.class);
+                    startActivity(i);
+                    finish();
                 }
             }
         });
@@ -239,49 +241,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        auth.addAuthStateListener(firebaseAuthListener);
-
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mgGoogleApiClient);
-
-        if (opr.isDone()) {
-
-            GoogleSignInResult result = opr.get();
-
-            verificarLogueo(result);
-
-
-        } else {
-
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    verificarLogueo(googleSignInResult);
-
-                }
-            });
-
-        }
-
-    }
-
-    private void verificarLogueo(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            firebasecongoogle(result.getSignInAccount());
-        }
-    }
-
-    private void firebasecongoogle(GoogleSignInAccount signInAccount) {
-
-
-
-
-    }
 
     @Override
     protected void onStop() {

@@ -1,6 +1,7 @@
 package co.potes.icesi.startagrocol;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,21 +15,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
 import co.potes.icesi.startagrocol.fragments.Fragment_Mis_Proyectos;
 import co.potes.icesi.startagrocol.fragments.Fragment_Publicar;
 
-public class Background extends AppCompatActivity {
+public class Background extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private DrawerLayout drawerLayout;
     private NavigationView navegacionMenuLateral;
     private Toolbar tb;
 
     private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
-    private Button cerrarSesion;
+    private GoogleApiClient mgGoogleApiClient;
 
 
 
@@ -46,6 +52,25 @@ public class Background extends AppCompatActivity {
         configureNavigationDrawer();
         setToolbar();
         auth = FirebaseAuth.getInstance();
+
+
+           /*
+        se inicializa el cliente para la autentificacion
+         */
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail().build();
+
+        /*
+        se inicializa el metodo de autentificacion en este caso google
+         */
+
+
+        mgGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+
 
 
 
@@ -111,10 +136,23 @@ public class Background extends AppCompatActivity {
 
                     if(auth.getCurrentUser()!=null){
                         auth.signOut();
+
+                        Auth.GoogleSignInApi.signOut(mgGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(@NonNull Status status) {
+                                Intent intent = new Intent(Background.this, Login.class);
+                                startActivity(intent);
+                                drawerLayout.closeDrawers();
+                                finish();
+                            }
+                        });
+
+
                         Intent intent = new Intent(Background.this, Login.class);
                         startActivity(intent);
                         drawerLayout.closeDrawers();
                         finish();
+
                         return true;
                     }
 
@@ -149,4 +187,8 @@ public class Background extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
