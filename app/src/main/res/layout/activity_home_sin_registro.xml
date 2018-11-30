@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:hint="busqueda"
             android:textColorHint="@color/colorPrimaryDark"
-            android:id="@+id/txtBusquedaSinRegistro" />
+            android:id="@+id/txtBusquedaSinRegistro"
+            android:focusable="false"/>
 
         <ImageButton
             android:layout_width="wrap_content"
