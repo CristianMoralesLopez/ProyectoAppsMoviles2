@@ -12,12 +12,17 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:src="@mipmap/imagen_perfil"
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imagePerfil"
-            />
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@mipmap/imagen_perfil"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

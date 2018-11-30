@@ -11,9 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -22,6 +26,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
 import co.potes.icesi.startagrocol.fragments.Fragment_Mis_Proyectos;
@@ -34,6 +44,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     private Toolbar tb;
 
     private FirebaseAuth auth;
+    private FirebaseDatabase db;
     private GoogleApiClient mgGoogleApiClient;
 
 
@@ -52,6 +63,45 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
         configureNavigationDrawer();
         setToolbar();
         auth = FirebaseAuth.getInstance();
+        db= FirebaseDatabase.getInstance();
+
+        View navView = navegacionMenuLateral.getHeaderView(0);
+
+
+        final ImageView foto = navView.findViewById(R.id.imagePerfil);
+        final TextView nombre = navView.findViewById(R.id.tv_nombrePerfil);
+
+        DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
+
+
+        Log.e("RUTA",auth.getCurrentUser().getUid());
+
+
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+
+                    nombre.setText((String)dataSnapshot.child("nombre").getValue());
+                    Picasso.get().load((String)dataSnapshot.child("urlImagen").getValue()).into(foto);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
 
 
            /*

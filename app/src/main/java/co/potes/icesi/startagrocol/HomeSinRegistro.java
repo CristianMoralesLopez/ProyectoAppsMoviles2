@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,6 +63,8 @@ public class HomeSinRegistro extends AppCompatActivity {
 
                     i.putExtra("usuario", user.getUid());
 
+
+
                     startActivity(i);
 
 
@@ -84,9 +87,16 @@ public class HomeSinRegistro extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    String titulo = (String) postSnapshot.child("titulo").getValue();
+                    String titulo =(String) postSnapshot.child("titulo").getValue();
                     String url = (String) postSnapshot.child("imagenPrimaria").getValue();
                     String descripcion = (String) postSnapshot.child("descripcion").getValue();
+                    String fecha = (String) postSnapshot.child("fechaCierreProyecto").getValue();
+                    String id = (String) postSnapshot.child("id").getValue();
+                    String idPropietario = (String) postSnapshot.child("idPropietario").getValue();
+                    String imagenSecundaria = (String) postSnapshot.child("imagenSecundaria").getValue();
+                    String metodoInversion = (String) postSnapshot.child("metodoInversion").getValue();
+                    String resumen  = (String) postSnapshot.child("resumen").getValue();
+                    String valorProyecto = (String ) postSnapshot.child("valorProyecto").getValue();
 
 
                     Proyecto proyecto = new Proyecto();
@@ -94,7 +104,13 @@ public class HomeSinRegistro extends AppCompatActivity {
                     proyecto.setDescripcion(descripcion);
                     proyecto.setTitulo(titulo);
                     proyecto.setImagenPrimaria(url);
-
+                    proyecto.setImagenSecundaria(imagenSecundaria);
+                    proyecto.setFechaCierreProyecto(fecha);
+                    proyecto.setId(id);
+                    proyecto.setIdPropietario(idPropietario);
+                    proyecto.setMetodoInversion(metodoInversion);
+                    proyecto.setResumen(resumen);
+                    proyecto.setValorProyecto(valorProyecto);
 
                     adaptadorListas.agregarLista(proyecto);
 

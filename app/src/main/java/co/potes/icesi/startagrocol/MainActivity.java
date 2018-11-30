@@ -18,10 +18,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,7 +45,7 @@ import java.io.FileNotFoundException;
 import co.potes.icesi.startagrocol.model.Usuario;
 import util.UtilDomi;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
 
     private static final int REQUEST_GALLERY = 101;
@@ -48,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private RadioButton inversor;
+    private SignInButton btnLoginGoogle;
     private RadioButton emprendedor;
     private Button btnRegistrarse;
     private ImageView imageView;
@@ -55,12 +66,32 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox terminos;
     private String path;
     private FirebaseStorage firebaseStorage;
+    private GoogleApiClient mgGoogleApiClient;
+    private String tipo;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*se inicializa el cliente para la autentificacion
+                */
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail().build();
+
+        /*
+        se inicializa el metodo de autentificacion en este caso google
+         */
+
+
+        mgGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
 
 
         /*
@@ -99,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
          */
 
         btnRegistrarse = findViewById(R.id.btnRegistrarse);
+        btnLoginGoogle = findViewById(R.id.btn_login_google2);
 
         /*elementos graficos para definir el tipo de usuario
          */
@@ -116,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
          */
 
-        imageView = findViewById(R.id.imagePerfil);
+        imageView = findViewById(R.id.profile_image);
 
         /*image button para que el usuario suba la foto
                  */
@@ -140,6 +172,46 @@ public class MainActivity extends AppCompatActivity {
         /*
         listener del boton  registrarse
          */
+
+
+        btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                boolean bandera = true;
+               tipo = "";
+
+
+
+                if (!terminos.isChecked()) {
+
+                    Toast.makeText(MainActivity.this, "Acepte los terminos y condicones para registrarse", Toast.LENGTH_SHORT).show();
+                    bandera = false;
+                }
+
+                /*
+                se verifica que alguno de los dos tipos de los usuarios este seleccionado
+                 */
+                if (!emprendedor.isChecked() && !inversor.isChecked()) {
+
+                    Toast.makeText(MainActivity.this, "Debes de elegir tu tipo de rol", Toast.LENGTH_SHORT).show();
+                    bandera = false;
+                } else if (emprendedor.isChecked()) {
+                    tipo = Usuario.EMPRENDEDOR;
+                } else if (inversor.isChecked()) {
+                    tipo = Usuario.INVERSOR;
+                }
+
+                if(bandera) {
+
+                    Intent i = Auth.GoogleSignInApi.getSignInIntent(mgGoogleApiClient);
+                    startActivityForResult(i, 9001);
+                }
+
+
+            }
+        });
 
 
 
@@ -318,19 +390,23 @@ public class MainActivity extends AppCompatActivity {
 
                     String key = auth.getCurrentUser().getUid();
 
-                    DatabaseReference reference = db.getReference().child(usuario.getTipo()).child(usuario.getUid());
+                    final DatabaseReference reference = db.getReference().child("usuarios").child(usuario.getUid());
 
                     reference.setValue(usuario);
 
                     if (path != null) {
                         try {
-                            StorageReference ref = firebaseStorage.getReference().child("Proyectos").child(key).child("fotoPerfil");
+                            final StorageReference ref = firebaseStorage.getReference().child("Proyectos").child(key).child("fotoPerfil.jpg");
                             FileInputStream file = new FileInputStream(new File(path));
                             //Sube la foto
                             ref.putStream(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                     if (task.isSuccessful()) {
+
+                                        reference.child("urlImagen");
+
+                                        reference.setValue(ref.getDownloadUrl().toString());
                                         Toast.makeText(MainActivity.this, "Registro realizado correctamente", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -355,6 +431,81 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+    private void handleSignInResult(GoogleSignInResult resultado) {
+
+        if (resultado.isSuccess()) {
+            FirebaseAuthAuthWithGoogle(resultado.getSignInAccount());
+        } else {
+            Toast.makeText(MainActivity.this, "Login con google fallido", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void FirebaseAuthAuthWithGoogle(GoogleSignInAccount signInAccount) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
+
+            String id = auth.getUid();
+            String nombre = signInAccount.getDisplayName();
+            String correo = signInAccount.getEmail();
+            String telefono = "sin telefono";
+            String contraseña = "logueado con google";
+
+
+
+            final Usuario usuario = new Usuario();
+
+            usuario.setUid(id);
+            usuario.setNombre(nombre);
+            usuario.setEmail(correo);
+            usuario.setTelefono(telefono);
+            usuario.setContrasenia(contraseña);
+            usuario.setTipo(tipo);
+            usuario.setUrlImagen(signInAccount.getPhotoUrl().toString());
+
+
+
+
+            auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        final DatabaseReference reference = db.getReference().child("usuarios").child(auth.getUid());
+                        reference.setValue(usuario);
+
+
+
+                        Intent i = new Intent(MainActivity.this, Background.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+
+
+            });
+
+
+        }
+
+
+
     /*
 
      */
@@ -371,7 +522,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+        if (requestCode == 9001) {
+
+
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+            handleSignInResult(result);
+        }
+
+
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

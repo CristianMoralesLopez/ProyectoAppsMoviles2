@@ -88,6 +88,13 @@ public class Fragment_Home extends Fragment  {
                     String titulo =(String) postSnapshot.child("titulo").getValue();
                     String url = (String) postSnapshot.child("imagenPrimaria").getValue();
                     String descripcion = (String) postSnapshot.child("descripcion").getValue();
+                    String fecha = (String) postSnapshot.child("fechaCierreProyecto").getValue();
+                    String id = (String) postSnapshot.child("id").getValue();
+                    String idPropietario = (String) postSnapshot.child("idPropietario").getValue();
+                    String imagenSecundaria = (String) postSnapshot.child("imagenSecundaria").getValue();
+                    String metodoInversion = (String) postSnapshot.child("metodoInversion").getValue();
+                    String resumen  = (String) postSnapshot.child("resumen").getValue();
+                    String valorProyecto = (String ) postSnapshot.child("valorProyecto").getValue();
 
 
                     Proyecto proyecto = new Proyecto();
@@ -95,6 +102,13 @@ public class Fragment_Home extends Fragment  {
                     proyecto.setDescripcion(descripcion);
                     proyecto.setTitulo(titulo);
                     proyecto.setImagenPrimaria(url);
+                    proyecto.setImagenSecundaria(imagenSecundaria);
+                    proyecto.setFechaCierreProyecto(fecha);
+                    proyecto.setId(id);
+                    proyecto.setIdPropietario(idPropietario);
+                    proyecto.setMetodoInversion(metodoInversion);
+                    proyecto.setResumen(resumen);
+                    proyecto.setValorProyecto(valorProyecto);
 
 
                     adaptadorListas.agregarLista(proyecto);

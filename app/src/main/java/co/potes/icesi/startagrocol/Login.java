@@ -48,7 +48,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     private GoogleApiClient mgGoogleApiClient;
 
     private FirebaseAuth auth;
-    private FirebaseDatabase db;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
 
@@ -82,7 +81,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         y se finaliza la actividad
          */
 
-        db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -169,31 +167,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
         AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
 
-        String id = signInAccount.getId();
-        String nombre = signInAccount.getDisplayName();
-        String correo = signInAccount.getEmail();
-        String telefono = "sin telefono";
-        String contraseña = "logueado con google";
-        String tipo = Usuario.EMPRENDEDOR;
-
-        final Usuario usuario = new Usuario();
-
-        usuario.setUid(id);
-        usuario.setNombre(nombre);
-        usuario.setEmail(correo);
-        usuario.setTelefono(telefono);
-        usuario.setContrasenia(contraseña);
-        usuario.setTipo(tipo);
-
-        final DatabaseReference reference = db.getReference().child(usuario.getTipo()).child(id);
-
-
         auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    reference.setValue(usuario);
-
                     Intent i = new Intent(Login.this,Background.class);
                     startActivity(i);
                     finish();

@@ -14,17 +14,17 @@
 
         >
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/baseline_account_circle_black_48d2"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
 
 
-
-        <ImageView
-            android:id="@+id/imagePerfil"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:background="@drawable/baseline_account_circle_black_48d2" />
-
-
-        <ImageButton
+            <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/baseline_camera_enhance_black_24dp"
@@ -182,13 +182,29 @@
             android:id="@+id/checkboxTerminos"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="120dp"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrarse"
-        android:id="@+id/btnRegistrarse"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            android:id="@+id/btnRegistrarse"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"/>
+
+
+
+
+        <com.google.android.gms.common.SignInButton android:id="@+id/btn_login_google2"
+            android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
 
 
 

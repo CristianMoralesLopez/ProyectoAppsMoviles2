@@ -279,7 +279,7 @@ public class Fragment_Publicar extends Fragment {
 
                     try {
 
-                        final DatabaseReference reference = firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").push();
+                        final DatabaseReference reference = firebaseDatabase.getReference().child("usuarios").child(id).child("proyectos").push();
 
                         DatabaseReference reference2 = db.getReference().child("Proyectos").child(reference.getKey());
                         final Proyecto nuevo = new Proyecto();
@@ -329,7 +329,7 @@ public class Fragment_Publicar extends Fragment {
 
                                             Toast.makeText(getActivity(),urlPrincipal[0],Toast.LENGTH_SHORT).show();
 
-                                            DatabaseReference uri1= firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").child(reference.getKey()).
+                                            DatabaseReference uri1= firebaseDatabase.getReference().child("usuarios").child(id).child("proyectos").child(reference.getKey()).
                                                     child("imagenPrimaria");
 
 
@@ -380,7 +380,7 @@ public class Fragment_Publicar extends Fragment {
                                             urlPrincipal[1] =  uri.toString();
                                             Toast.makeText(getActivity(),urlPrincipal[1],Toast.LENGTH_SHORT).show();
 
-                                            DatabaseReference uri1= firebaseDatabase.getReference().child(Usuario.EMPRENDEDOR).child(id).child("proyectos").child(reference.getKey()).
+                                            DatabaseReference uri1= firebaseDatabase.getReference().child("usuarios").child(id).child("proyectos").child(reference.getKey()).
                                                     child("imagenSecundaria");
 
                                             DatabaseReference uri2= firebaseDatabase.getReference().child("Proyectos").child(reference.getKey()).child("imagenSecundaria");

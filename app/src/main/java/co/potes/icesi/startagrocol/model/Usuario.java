@@ -13,9 +13,17 @@ public class Usuario {
     private String telefono;
     private String contrasenia;
     private String tipo;
+    private String urlImagen;
 
+    public String getUrlImagen() {
+        return urlImagen;
+    }
 
-    public Usuario(String uid, String nombre, String email, String telefono,String contrasenia) {
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
+
+    public Usuario(String uid, String nombre, String email, String telefono, String contrasenia) {
         this.uid = uid;
         this.nombre = nombre;
         this.email = email;
