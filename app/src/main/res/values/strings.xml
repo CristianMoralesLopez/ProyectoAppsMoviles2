@@ -14,8 +14,9 @@
         obtendrás ganancias de lo invertido y este ayudara a cumplir los sueños de estos emprendedores.</string>
 
 
-
-
     <string name="politicas">.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

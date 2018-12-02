@@ -11,13 +11,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -34,10 +33,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
-import co.potes.icesi.startagrocol.fragments.Fragment_Mis_Proyectos;
+import co.potes.icesi.startagrocol.fragments.Fragment_Inversiones;
+import co.potes.icesi.startagrocol.fragments.Fragment_Proyecto_Completo;
 import co.potes.icesi.startagrocol.fragments.Fragment_Publicar;
+import co.potes.icesi.startagrocol.fragments.MensajesFragments;
+import co.potes.icesi.startagrocol.fragments.Mis_ProyectosFragment;
+import co.potes.icesi.startagrocol.model.Proyecto;
 
-public class Background extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class Background extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, MensajesFragments {
 
     private DrawerLayout drawerLayout;
     private NavigationView navegacionMenuLateral;
@@ -48,10 +51,11 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     private GoogleApiClient mgGoogleApiClient;
 
 
-
     private Fragment_Home fragment_home;
-    private Fragment_Mis_Proyectos fragment_mis_proyectos;
+    private Mis_ProyectosFragment fragment_mis_proyectos;
     private Fragment_Publicar fragment_publicar;
+    private Fragment_Proyecto_Completo fragment_proyecto_completo;
+    private Fragment_Inversiones fragment_inversiones;
 
 
     private Fragment fragmentActual;
@@ -63,7 +67,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
         configureNavigationDrawer();
         setToolbar();
         auth = FirebaseAuth.getInstance();
-        db= FirebaseDatabase.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         View navView = navegacionMenuLateral.getHeaderView(0);
 
@@ -74,18 +78,13 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
         DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
 
 
-        Log.e("RUTA",auth.getCurrentUser().getUid());
-
-
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-
-                    nombre.setText((String)dataSnapshot.child("nombre").getValue());
-                    Picasso.get().load((String)dataSnapshot.child("urlImagen").getValue()).into(foto);
+                nombre.setText((String) dataSnapshot.child("nombre").getValue());
+                Picasso.get().load((String) dataSnapshot.child("urlImagen").getValue()).into(foto);
 
 
             }
@@ -122,26 +121,23 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
 
 
-
-
         fragment_home = new Fragment_Home();
-        fragment_mis_proyectos =new Fragment_Mis_Proyectos();
+        fragment_mis_proyectos = new Mis_ProyectosFragment();
         fragment_publicar = new Fragment_Publicar();
+        fragment_proyecto_completo = new Fragment_Proyecto_Completo();
+        fragment_inversiones = new Fragment_Inversiones();
 
 
-        if (auth.getCurrentUser()!=null){
+        if (auth.getCurrentUser() != null) {
 
             Bundle datos = new Bundle();
 
-            datos.putString("usuario",auth.getCurrentUser().getUid());
+            datos.putString("usuario", auth.getCurrentUser().getUid());
 
             fragment_publicar.setArguments(datos);
 
 
-
-
         }
-
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -153,7 +149,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     }
 
 
-    private void setToolbar(){
+    private void setToolbar() {
         tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
@@ -171,20 +167,15 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
                 if (itemId == R.id.inicio) {
                     fragmentActual = fragment_home;
                     tb.setTitle("Proyectos");
-                }
-                else if (itemId == R.id.mis_proyectos) {
+                } else if (itemId == R.id.mis_proyectos) {
                     fragmentActual = fragment_mis_proyectos;
                     tb.setTitle("Mis proyectos");
-                }
-
-                else if (itemId == R.id.publicar) {
+                } else if (itemId == R.id.publicar) {
                     fragmentActual = fragment_publicar;
                     tb.setTitle("Publicar");
-                }
+                } else if (itemId == R.id.salir) {
 
-                else if(itemId == R.id.salir){
-
-                    if(auth.getCurrentUser()!=null){
+                    if (auth.getCurrentUser() != null) {
                         auth.signOut();
 
                         Auth.GoogleSignInApi.signOut(mgGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
@@ -221,7 +212,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        switch(itemId) {
+        switch (itemId) {
             // Android home
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -235,6 +226,62 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.empty, menu);
         return true;
+    }
+
+
+    @Override
+    public void mensajeFragment(String dato, Proyecto proyecto) {
+
+
+        Bundle datos = new Bundle();
+
+        datos.putSerializable("proyecto", proyecto);
+
+        fragment_proyecto_completo.setArguments(datos);
+
+
+        fragmentActual = fragment_proyecto_completo;
+
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragmentActual);
+        transaction.commit();
+        drawerLayout.closeDrawers();
+        Toast.makeText(Background.this, "posicion selecionada fue: 0" + dato, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void añadirproyecto(String dato) {
+
+
+        fragmentActual = fragment_publicar;
+
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragmentActual);
+        transaction.commit();
+        drawerLayout.closeDrawers();
+
+    }
+
+    @Override
+    public void inversores(Proyecto proyecto) {
+        Bundle datos = new Bundle();
+
+        datos.putSerializable("proyecto", proyecto);
+
+        fragment_inversiones.setArguments(datos);
+
+
+        fragmentActual = fragment_inversiones;
+
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragmentActual);
+        transaction.commit();
+        drawerLayout.closeDrawers();
+
     }
 
     @Override

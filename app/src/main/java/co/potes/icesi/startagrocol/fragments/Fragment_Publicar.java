@@ -281,8 +281,7 @@ public class Fragment_Publicar extends Fragment {
 
                         final DatabaseReference reference = firebaseDatabase.getReference().child("usuarios").child(id).child("proyectos").push();
 
-                        DatabaseReference reference2 = db.getReference().child("Proyectos").child(reference.getKey());
-                        final Proyecto nuevo = new Proyecto();
+                       final Proyecto nuevo = new Proyecto();
 
                         nuevo.setId(reference.getKey());
                         nuevo.setTitulo(titulo);
@@ -294,8 +293,9 @@ public class Fragment_Publicar extends Fragment {
                         nuevo.setMetodoInversion("credito");
                         nuevo.setImagenPrimaria("null1");
                         nuevo.setImagenSecundaria("null2");
+                        nuevo.setPublicado("no");
                         reference.setValue(nuevo);
-                        reference2.setValue(nuevo);
+
 
 
 
@@ -333,10 +333,10 @@ public class Fragment_Publicar extends Fragment {
                                                     child("imagenPrimaria");
 
 
-                                            DatabaseReference uri2= firebaseDatabase.getReference().child("Proyectos").child(reference.getKey()).child("imagenPrimaria");
+
 
                                             uri1.setValue(urlPrincipal[0]);
-                                            uri2.setValue(urlPrincipal[0]);
+
 
 
 
@@ -383,11 +383,8 @@ public class Fragment_Publicar extends Fragment {
                                             DatabaseReference uri1= firebaseDatabase.getReference().child("usuarios").child(id).child("proyectos").child(reference.getKey()).
                                                     child("imagenSecundaria");
 
-                                            DatabaseReference uri2= firebaseDatabase.getReference().child("Proyectos").child(reference.getKey()).child("imagenSecundaria");
 
-                                            uri2.setValue(urlPrincipal[1]);
-
-                                            uri1.setValue(urlPrincipal[1]);
+                                             uri1.setValue(urlPrincipal[1]);
 
 
 

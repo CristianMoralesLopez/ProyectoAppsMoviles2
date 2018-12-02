@@ -1,6 +1,8 @@
 package co.potes.icesi.startagrocol.model;
 
-public class Proyecto {
+import java.io.Serializable;
+
+public class Proyecto implements Serializable {
 
     public static String INVERSION_RECOMPENSA= "RECOMPENSA";
     public static String INVERSION_CREDITO = "CREDITO";
@@ -18,6 +20,10 @@ public class Proyecto {
     private String tipoProyecto;
     private String idPropietario;
     private String valorProyecto;
+
+
+
+    private String publicado;
 
 
     public String getResumen() {
@@ -136,5 +142,12 @@ public class Proyecto {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    public String getPublicado() {
+        return publicado;
+    }
+
+    public void setPublicado(String publicado) {
+        this.publicado = publicado;
     }
 }

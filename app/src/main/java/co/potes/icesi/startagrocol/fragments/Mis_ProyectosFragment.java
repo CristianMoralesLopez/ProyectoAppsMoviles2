@@ -1,9 +1,12 @@
 package co.potes.icesi.startagrocol.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,21 +29,30 @@ import java.util.ArrayList;
 
 import co.potes.icesi.startagrocol.R;
 import co.potes.icesi.startagrocol.model.AdaptadorListaHome;
+import co.potes.icesi.startagrocol.model.AdaptadorMisproyectos;
 import co.potes.icesi.startagrocol.model.Proyecto;
 
-public class Fragment_Home extends Fragment  {
 
-    private ImageButton btnBusqueda;
-    private EditText txtBusqueda;
+public class Mis_ProyectosFragment extends Fragment {
+
+
+
+
+
     private ListView lista;
-    private AdaptadorListaHome adaptadorListas;
+    private AdaptadorMisproyectos adaptadorMisproyectos;
     private ArrayList<Proyecto> proyectos;
     private FirebaseDatabase db;
     private MensajesFragments mensajesFragments;
-    private  FirebaseAuth auth;
+    private FirebaseAuth auth;
+    private FloatingActionButton añadir;
 
 
 
+
+    public Mis_ProyectosFragment() {
+        // Required empty public constructor
+    }
 
 
     @Nullable
@@ -57,25 +60,17 @@ public class Fragment_Home extends Fragment  {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_mis__proyectos, container, false);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
         auth = FirebaseAuth.getInstance();
 
 
         final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-
-
-
-
-        btnBusqueda = v.findViewById(R.id.btnBusqueda);
-        txtBusqueda = v.findViewById(R.id.txtBusqueda);
-
-        adaptadorListas = new AdaptadorListaHome(this);
-        lista = v.findViewById(R.id.lista);
-        lista.setAdapter(adaptadorListas);
+        adaptadorMisproyectos = new AdaptadorMisproyectos(this);
+        lista = v.findViewById(R.id.lista_Mis_Proyectos);
+        lista.setAdapter(adaptadorMisproyectos);
         proyectos = new ArrayList<Proyecto>();
 
 
@@ -83,7 +78,7 @@ public class Fragment_Home extends Fragment  {
 
         db = FirebaseDatabase.getInstance();
 
-        DatabaseReference reference = db.getReference().child("Proyectos");
+        DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -104,7 +99,6 @@ public class Fragment_Home extends Fragment  {
                     String publicado = (String) postSnapshot.child("publicado").getValue();
                     String valorRecolectado = (String) postSnapshot.child("valorRecolectado").getValue();
 
-
                     Proyecto proyecto = new Proyecto();
 
                     proyecto.setDescripcion(descripcion);
@@ -121,19 +115,10 @@ public class Fragment_Home extends Fragment  {
                     proyecto.setValorRecolectado(valorRecolectado);
 
 
-                    adaptadorListas.agregarLista(proyecto);
+                    adaptadorMisproyectos.agregarLista(proyecto);
                     proyectos.add(proyecto);
 
-
-
-
-
-
                 }
-
-
-
-
 
             }
 
@@ -146,28 +131,20 @@ public class Fragment_Home extends Fragment  {
 
 
 
-        btnBusqueda.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+        añadir = v.findViewById(R.id.añadirProyecto);
+
+
+        añadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                mensajesFragments.añadirproyecto("");
 
-                adaptadorListas.limpiar();
-
-                Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                String posicion = ""+position;
-
-
-                Proyecto proyectu = proyectos.get(position);
-
-                mensajesFragments.mensajeFragment(posicion, proyectos.get(position));
             }
         });
 
@@ -185,6 +162,10 @@ public class Fragment_Home extends Fragment  {
     }
 
 
+    public void fragmentInvertir (Proyecto proyecto){
+
+        mensajesFragments.inversores(proyecto);
+    }
 
 
 }
