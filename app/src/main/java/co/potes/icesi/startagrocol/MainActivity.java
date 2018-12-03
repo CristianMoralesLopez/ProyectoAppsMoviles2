@@ -32,8 +32,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -419,11 +422,33 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     //aqui me voy para la otra actividad
 
-                    Intent i = new Intent(MainActivity.this, Login.class);
 
-                    startActivity(i);
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    finish();
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                Intent i = new Intent(MainActivity.this,Background.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Intent i = new Intent(MainActivity.this,Background_Inversor.class);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
         });
@@ -444,18 +469,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void FirebaseAuthAuthWithGoogle(GoogleSignInAccount signInAccount) {
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

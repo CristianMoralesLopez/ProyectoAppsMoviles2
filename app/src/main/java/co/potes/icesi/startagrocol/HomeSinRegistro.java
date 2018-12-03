@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import co.potes.icesi.startagrocol.model.AdaptadorListaHome;
 import co.potes.icesi.startagrocol.model.AdaptadorListaHomeSinRegistrar;
 import co.potes.icesi.startagrocol.model.Proyecto;
+import co.potes.icesi.startagrocol.model.Usuario;
 
 public class HomeSinRegistro extends AppCompatActivity {
 
@@ -59,16 +60,35 @@ public class HomeSinRegistro extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
 
-                    Intent i = new Intent(HomeSinRegistro.this, Background.class);
-
-                    i.putExtra("usuario", user.getUid());
+                    DatabaseReference reference = db.getReference().child("usuarios").child(user.getUid());
 
 
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    startActivity(i);
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                Intent i = new Intent(HomeSinRegistro.this,Background.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Intent i = new Intent(HomeSinRegistro.this,Background_Inversor.class);
+                                startActivity(i);
+                                finish();
+                            }
 
 
-                    finish();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
 
                 }

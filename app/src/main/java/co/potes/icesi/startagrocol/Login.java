@@ -94,10 +94,36 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if(auth.getCurrentUser()!=null){
-                    Intent i = new Intent(Login.this, Background.class);
+
+                    DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
 
 
-                    startActivity(i);
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                Intent i = new Intent(Login.this,Background.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Intent i = new Intent(Login.this,Background_Inversor.class);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
                 }
 
@@ -106,9 +132,36 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
 
         if (auth.getCurrentUser() != null) {
-            Intent i = new Intent(this, Background.class);
 
-            startActivity(i);
+            DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
+
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                    String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                    if(valor3.equals(Usuario.EMPRENDEDOR)){
+                        Intent i = new Intent(Login.this,Background.class);
+                        startActivity(i);
+                        finish();
+                    }
+                    else{
+                        Intent i = new Intent(Login.this,Background_Inversor.class);
+                        startActivity(i);
+                        finish();
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
             finish();
 
@@ -274,7 +327,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                     });
                 } else {
 
-                    Toast.makeText(Login.this, "la contraseña esta mala pirtobo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "la contraseña esta mala", Toast.LENGTH_SHORT).show();
                 }
             }
         });

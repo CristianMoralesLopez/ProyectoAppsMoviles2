@@ -43,7 +43,7 @@ import co.potes.icesi.startagrocol.fragments_inversor.Fragment_Inversion;
 import co.potes.icesi.startagrocol.fragments_inversor.Fragment_Mis_Inversiones;
 import co.potes.icesi.startagrocol.model.Proyecto;
 
-public class Background_Inversor extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Background_Inversor extends AppCompatActivity implements MensajesFragments,GoogleApiClient.OnConnectionFailedListener{
 
     private DrawerLayout drawerLayout_inversor;
     private NavigationView navegacionMenuLateral;
@@ -121,7 +121,7 @@ public class Background_Inversor extends AppCompatActivity implements GoogleApiC
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, fragment_home);
+        transaction.replace(R.id.frame_inversor, fragment_home);
         transaction.commit();
         setTitle("Proyectos");
 
@@ -213,4 +213,38 @@ public class Background_Inversor extends AppCompatActivity implements GoogleApiC
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void mensajeFragment(String dato, Proyecto proyecto) {
+
+
+        Bundle datos = new Bundle();
+
+        datos.putSerializable("proyecto", proyecto);
+
+        fragment_proyecto_completo.setArguments(datos);
+
+
+        fragmentActual = fragment_proyecto_completo;
+
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_inversor, fragmentActual);
+        transaction.commit();
+        drawerLayout_inversor.closeDrawers();
+        Toast.makeText(Background_Inversor.this, "posicion selecionada fue: 0" + dato, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void añadirproyecto(String dato) {
+
+    }
+
+    @Override
+    public void inversores(Proyecto proyecto) {
+
+    }
+
+
 }
