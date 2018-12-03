@@ -3,7 +3,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/fondo_publicar">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -14,22 +15,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Ingrese el título del proyecto:"
-                android:textColor="#000"
-                android:textSize="15dp" />
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/et_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:hint="ingrese el titulo del proyecto aqui" />
+                android:textSize="17sp"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:background="@drawable/forma_edit_text"
+                android:hint="Ingrese el titulo del proyecto aqui"
+                android:padding="10dp"/>
 
         </LinearLayout>
 
@@ -37,23 +43,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_margin="15dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Descripcion:"
-                android:textColor="#000"
-                android:textSize="15dp" />
+                android:text="Descripción:"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
 
             <EditText
                 android:id="@+id/et_descripcion"
                 android:layout_width="320dp"
                 android:layout_height="120dp"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/forma_edit_text"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical" />
 
@@ -63,8 +72,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_margin="15dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -72,13 +80,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Caracteristicas:"
-                android:textColor="#000"
-                android:textSize="15dp" />
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/et_caracteristicas"
                 android:layout_width="320dp"
                 android:layout_height="120dp"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/forma_edit_text"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical" />
 
@@ -94,9 +106,10 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Imagen primaria:"
-                android:textColor="#000"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 android:textSize="15dp" />
 
             <Button
@@ -104,13 +117,16 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
+                android:textSize="20sp"
+                android:background="@drawable/forma_boton_3"
                 android:text="+" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Imagen secundaria:"
+                android:textStyle="bold"
+                android:text="Imagen secundaria: "
                 android:textColor="#000"
                 android:textSize="15dp" />
 
@@ -118,15 +134,16 @@
                 android:id="@+id/btn_agregarfotoSec"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:textSize="20sp"
+                android:background="@drawable/forma_boton_3"
                 android:text="+" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp">
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal">
 
             <ImageView
                 android:id="@+id/img_fotoP"
@@ -152,6 +169,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha:"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/forma_boton_3"
                 android:textColor="#000"
                 android:id="@+id/btnFechaProyecto"/>
 
@@ -159,6 +178,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="fecha"
+                android:textSize="18sp"
+                android:textColor="#000000"
                 android:id="@+id/txtFecha"/>
 
 
@@ -172,17 +193,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp">
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Monto requerido:"
-                android:textColor="#000"
-                android:textSize="15dp"
-                android:layout_marginTop="10dp"/>
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
 
             <EditText
                 android:id="@+id/et_monto"
@@ -196,22 +216,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp">
+            android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Método de inversión:"
-                android:textColor="#000"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 android:textSize="15dp" />
 
             <Spinner
                 android:id="@+id/spin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="35dp">
+                android:layout_marginLeft="40dp">
 
             </Spinner>
         </LinearLayout>
@@ -222,6 +241,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="Guardar proyecto"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/forma_boton2"
             android:layout_marginTop="15dp"/>
 
     </LinearLayout>
