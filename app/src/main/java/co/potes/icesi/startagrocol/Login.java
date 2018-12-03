@@ -27,8 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import co.potes.icesi.startagrocol.model.Usuario;
 
@@ -49,6 +52,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    private FirebaseDatabase db;
 
 
 
@@ -58,6 +62,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         setContentView(R.layout.activity_login);
 
 
+
+        db= FirebaseDatabase.getInstance();
 
         /*
         se inicializa el cliente para la autentificacion
@@ -171,9 +177,38 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Intent i = new Intent(Login.this,Background.class);
-                    startActivity(i);
-                    finish();
+
+                    DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
+
+
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                Intent i = new Intent(Login.this,Background.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Intent i = new Intent(Login.this,Background_Inversor.class);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
             }
         });
@@ -208,11 +243,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
 
 
-                    Intent i = new Intent(Login.this, Background.class);
+                    DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid());
 
-                    startActivity(i);
 
-                    finish();
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                Intent i = new Intent(Login.this,Background.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                Intent i = new Intent(Login.this,Background_Inversor.class);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 } else {
 
                     Toast.makeText(Login.this, "la contraseña esta mala pirtobo", Toast.LENGTH_SHORT).show();

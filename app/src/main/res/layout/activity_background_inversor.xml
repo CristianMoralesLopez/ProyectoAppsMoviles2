@@ -12,20 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar_inversor"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/frame_inversor"
-            android:layout_below="@+id/toolbar"/>
+            android:layout_below="@+id/toolbar_inversor"/>
 
 
 
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/navigation_view_inversor"
         app:headerLayout="@layout/cabecera"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

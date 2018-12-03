@@ -66,7 +66,7 @@ public class Background_Inversor extends AppCompatActivity implements GoogleApiC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_background);
+        setContentView(R.layout.activity_background_inversor);
         configureNavigationDrawer();
         setToolbar();
         auth = FirebaseAuth.getInstance();
@@ -130,7 +130,7 @@ public class Background_Inversor extends AppCompatActivity implements GoogleApiC
 
 
     private void setToolbar() {
-        tb = findViewById(R.id.toolbar);
+        tb = findViewById(R.id.toolbar_inversor);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -139,7 +139,7 @@ public class Background_Inversor extends AppCompatActivity implements GoogleApiC
 
     private void configureNavigationDrawer() {
         drawerLayout_inversor = findViewById(R.id.drawerInversor);
-        navegacionMenuLateral = findViewById(R.id.navigation_view);
+        navegacionMenuLateral = findViewById(R.id.navigation_view_inversor);
         navegacionMenuLateral.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

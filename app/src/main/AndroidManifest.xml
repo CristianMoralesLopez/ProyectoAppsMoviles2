@@ -18,6 +18,7 @@
         <activity android:name=".Splash" />
         <activity android:name=".RestaurarContrasenia" />
         <activity android:name=".Background" />
+        <activity android:name=".Background_Inversor" />
         <activity android:name=".HomeSinRegistro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

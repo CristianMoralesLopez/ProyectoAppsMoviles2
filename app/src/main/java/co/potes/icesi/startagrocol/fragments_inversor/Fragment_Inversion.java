@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 
 import co.potes.icesi.startagrocol.R;
 
-public class Fragment_Mis_Inversiones extends Fragment {
+public class Fragment_Inversion extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_mis_inversiones, container, false);
+        View v = inflater.inflate(R.layout.fragment_inversion, container, false);
+
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
