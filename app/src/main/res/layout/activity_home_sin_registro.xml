@@ -3,55 +3,83 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-
-        <EditText
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:hint="busqueda"
-            android:textColorHint="@color/colorPrimaryDark"
-            android:id="@+id/txtBusquedaSinRegistro"
-            android:focusable="false"/>
-
-        <ImageButton
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/search"
-            android:id="@+id/btnBusquedaSinRegistrar"/>
+            android:layout_alignParentTop="true"
+            android:id="@+id/busqueda">
+
+                <EditText
+                    android:id="@+id/txtBusquedaSinRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="búsqueda"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="40dp"
+                    android:textColorHint="@color/colorPrimaryDark" />
+
+                <ImageButton
+                    android:id="@+id/btnBusquedaSinRegistrar"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search" />
+
+
+        </RelativeLayout>
 
 
 
-    </LinearLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="475dp"
-        android:id="@+id/listaSinRegistrar"></ListView>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        
-        <Button
-            android:layout_width="180dp"
+        <ListView
+            android:id="@+id/listaSinRegistrar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnRegistrarseEmprendedor"
-            android:text="Publica tu Proyecto"/>
+            android:layout_above="@+id/botones"
+            android:layout_below="@+id/busqueda">
+        </ListView>
 
-        <Button
-            android:layout_width="180dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnRegistrarseInversor"
-            android:text="Invierte"/>
-        
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/botones"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_marginRight="50dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRegistrarseInversor"
+                android:text="Invierte"
+                android:textStyle="bold"
+                android:background="@drawable/forma_boton2"
+                />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRegistrarseEmprendedor"
+                android:text="Publica tu Proyecto"
+                android:textStyle="bold"
+                android:background="@drawable/forma_boton2"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

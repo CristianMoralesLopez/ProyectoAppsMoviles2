@@ -10,17 +10,19 @@
     <EditText
         android:id="@+id/et_email"
         android:layout_width="350dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:hint="Correo"
-        android:layout_marginTop="260dp"
+        android:padding="10dp"
+        android:layout_marginTop="280dp"
         android:background="@drawable/forma_edit_text"
         android:paddingLeft="10dp"/>
 
     <EditText
         android:id="@+id/et_pass"
         android:layout_width="350dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:hint="Contraseña"
+        android:padding="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/forma_edit_text"
         android:paddingLeft="10dp"
@@ -34,21 +36,20 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Ingresar"
             android:layout_marginRight="30dp"
             android:textColor="#000"
-            android:background="#109090"/>
+            android:background="@drawable/forma_boton2"/>
 
         <Button
             android:id="@+id/btn_registro"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Registrar"
             android:textColor="#000"
-            android:background="#109090"
-            />
+            android:background="@drawable/forma_boton2"/>
 
     </LinearLayout>
 

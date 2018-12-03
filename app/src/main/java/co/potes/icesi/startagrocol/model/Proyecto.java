@@ -22,7 +22,6 @@ public class Proyecto implements Serializable {
     private String valorProyecto;
 
 
-
     private String publicado;
 
 

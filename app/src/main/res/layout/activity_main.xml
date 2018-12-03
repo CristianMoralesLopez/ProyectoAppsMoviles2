@@ -1,211 +1,247 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:background="@drawable/fondo_login">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/fondo_registro">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-
-        >
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/baseline_account_circle_black_48d2"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"/>
-
-
-            <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/baseline_camera_enhance_black_24dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/btnCargarFoto"/>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-
-        <RadioGroup
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/baseline_account_circle_black_48d2"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"/>
+
+
+            <ImageButton
+                android:id="@+id/btnCargarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginTop="25dp"
+                android:background="@mipmap/imagen_camara" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/nombreRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Nombre                      "
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtNombreRegistro"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forma_edit_text"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/correoRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Correo                        "
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtCorreoRegistro"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forma_edit_text"
+                android:padding="5dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/telefonoRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Teléfono                   "
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtTelefonoRegistro"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forma_edit_text"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/contraseña1Registro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Contraseña              "
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtcontraseña1Registro"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forma_edit_text"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/contraseña2Registro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Repetir contraseña"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtcontraseña2Registro"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forma_edit_text"
+                android:inputType="textPassword"
+                android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonEmprendedor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:checked="false"
+                    android:text="Emprendedor Agrario" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonInversor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:checked="false"
+                    android:layout_marginLeft="10dp"
+                    android:text="Inversor" />
+
+
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center">
 
-            <RadioButton
-                android:id="@+id/radioButtonEmprendedor"
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Aceptar los términos y condiciones"
                 android:layout_marginTop="10dp"
-                android:checked="false"
-                android:text="Emprendedor Agrario" />
-
-            <RadioButton
-                android:id="@+id/radioButtonInversor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:checked="false"
-                android:text="Inversor                       " />
+                android:textStyle="bold"
+                android:gravity="center"
+                android:id="@+id/checkboxTerminos"/>
+        </LinearLayout>
 
 
-        </RadioGroup>
-
-
-    </LinearLayout>
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:orientation="horizontal"
-        android:rowCount="5">
-
-        <TextView
-            android:id="@+id/nombreRegistro"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:text="Nombre"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtNombreRegistro"
-            android:background="@drawable/forma_edit_text"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Correo"
-            android:id="@+id/correoRegistro"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtCorreoRegistro"
-            android:background="@drawable/forma_edit_text"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Telefono"
-            android:id="@+id/telefonoRegistro"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtTelefonoRegistro"
-            android:background="@drawable/forma_edit_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contraseña"
-            android:id="@+id/contraseña1Registro"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtcontraseña1Registro"
-            android:inputType="textPassword"
-            android:background="@drawable/forma_edit_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contrañseña"
-            android:id="@+id/contraseña2Registro"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="40dp"
-            android:textStyle="bold"
-            />
-
-        <EditText
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/txtcontraseña2Registro"
-            android:inputType="textPassword"
-            android:background="@drawable/forma_edit_text"/>
-
-    </GridLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aceptar los términos y condiciones"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:id="@+id/checkboxTerminos"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Registrarse"
+                android:textStyle="bold"
+                android:id="@+id/btnRegistrarse"
+                android:background="@drawable/forma_boton2"
+                android:layout_gravity="center"/>
+
+            <com.google.android.gms.common.SignInButton android:id="@+id/btn_login_google2"
+                android:layout_height="wrap_content" android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="Registrarse"
-            android:id="@+id/btnRegistrarse"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
-
-
-
-
-        <com.google.android.gms.common.SignInButton android:id="@+id/btn_login_google2"
-            android:layout_height="wrap_content" android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            />
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</ScrollView>
