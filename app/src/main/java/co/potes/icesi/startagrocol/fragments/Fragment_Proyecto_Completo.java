@@ -52,7 +52,6 @@ public class Fragment_Proyecto_Completo extends Fragment {
     private FirebaseAuth auth;
     private FirebaseDatabase db;
     private EditText valorInversion;
-    private FirebaseAuth.AuthStateListener fireAuthStateListener;
 
 
 
@@ -187,15 +186,10 @@ public class Fragment_Proyecto_Completo extends Fragment {
             }
         });
 
-        actualizar(proyecto);
 
         auth = FirebaseAuth.getInstance();
 
-        fireAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
 
                     DatabaseReference reference = db.getReference().child("usuarios").child(user.getUid());
@@ -213,6 +207,11 @@ public class Fragment_Proyecto_Completo extends Fragment {
                                 metodoInversion.setVisibility(View.GONE);
                                 valorInversion.setVisibility(View.GONE);
                             }
+                            else{
+                                btnInvertir.setVisibility(View.VISIBLE);
+                                metodoInversion.setVisibility(View.VISIBLE);
+                                valorInversion.setVisibility(View.VISIBLE);
+                            }
 
                         }
 
@@ -223,11 +222,9 @@ public class Fragment_Proyecto_Completo extends Fragment {
                     });
 
 
-                }
 
-
-            }
         };
+        actualizar(proyecto);
 
         return v;
 
