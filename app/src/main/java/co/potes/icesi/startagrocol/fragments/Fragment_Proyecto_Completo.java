@@ -113,23 +113,25 @@ public class Fragment_Proyecto_Completo extends Fragment {
                     Toast.makeText(getActivity(),"ingrese el valor de la inversion",Toast.LENGTH_SHORT);
                 }else {
 
-                    DatabaseReference reference = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+
+
+                    DatabaseReference reference = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                             child(proyecto.getId()).child("inversiones").push();
 
-                    DatabaseReference reference1 = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+                    DatabaseReference reference1 = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                             child(proyecto.getId()).child("inversiones").child(reference.getKey()).child("id");
                     reference1.setValue(reference.getKey());
 
-                    DatabaseReference reference2 = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+                    DatabaseReference reference2 = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                             child(proyecto.getId()).child("inversiones").child(reference.getKey()).child("inversor");
                     reference2.setValue(auth.getCurrentUser().getDisplayName());
 
-                    DatabaseReference reference3 = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+                    DatabaseReference reference3 = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                             child(proyecto.getId()).child("inversiones").child(reference.getKey()).child("valor");
 
                     reference3.setValue(valorInversion.getText().toString());
 
-                    final DatabaseReference reference4 = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+                    final DatabaseReference reference4 = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                             child(proyecto.getId()).child("valorRecolectado");
 
                     DatabaseReference reference5 = db.getReference().child("Proyectos").child(proyecto.getId()).child("inversiones").child(reference.getKey())
@@ -148,7 +150,7 @@ public class Fragment_Proyecto_Completo extends Fragment {
                    final DatabaseReference reference9 = db.getReference().child("Proyectos").child(proyecto.getId()).child("valorRecolectado");
 
 
-                 DatabaseReference   reference10 = db.getReference().child("usuarios").child(auth.getCurrentUser().getUid()).child("proyectos").
+                 DatabaseReference   reference10 = db.getReference().child("usuarios").child(proyecto.getIdPropietario()).child("proyectos").
                          child(proyecto.getId()).child("valorRecolectado");
 
                  reference10.addListenerForSingleValueEvent(new ValueEventListener() {
