@@ -14,7 +14,18 @@
         obtendrás ganancias de lo invertido y este ayudara a cumplir los sueños de estos emprendedores.</string>
 
 
-    <string name="politicas">.</string>
+    <string name="politicasInversor">Las siguientes políticas rigen nuestra aplicación:
+    \n- Al comprometerse con una inversión, debe llevarse a cabo.
+    \n- No debe revelar datos de un emprendedor.
+    \n- Debe ser serio en todo lo que comunica al emprendedor.
+    </string>
+    <string name="politicasEmprendedor">Las siguientes políticas rigen nuestra aplicación:
+    \n- No puedo crear un proyecto que no tenga que ver con el agro.
+    \n- El proyecto no puede contener aspectos falsos.
+    \n- No puede revelar datos de un inversor.
+    \n- Si algún proyecto se cayó y desea volver a subirlo
+        /n debe tener cammbios.
+    </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
