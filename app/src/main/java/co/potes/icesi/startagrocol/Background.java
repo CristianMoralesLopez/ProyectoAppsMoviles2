@@ -34,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
 import co.potes.icesi.startagrocol.fragments.Fragment_Inversiones;
+import co.potes.icesi.startagrocol.fragments.Fragment_Perfil;
 import co.potes.icesi.startagrocol.fragments.Fragment_Proyecto_Completo;
 import co.potes.icesi.startagrocol.fragments.Fragment_Publicar;
 import co.potes.icesi.startagrocol.fragments.MensajesFragments;
@@ -54,6 +55,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
     private Fragment_Home fragment_home;
     private Mis_ProyectosFragment fragment_mis_proyectos;
     private Fragment_Publicar fragment_publicar;
+    private Fragment_Perfil fragment_perfil;
     private Fragment_Proyecto_Completo fragment_proyecto_completo;
     private Fragment_Inversiones fragment_inversiones;
 
@@ -126,7 +128,7 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
         fragment_publicar = new Fragment_Publicar();
         fragment_proyecto_completo = new Fragment_Proyecto_Completo();
         fragment_inversiones = new Fragment_Inversiones();
-
+        fragment_perfil = new Fragment_Perfil();
 
         if (auth.getCurrentUser() != null) {
 
@@ -170,9 +172,9 @@ public class Background extends AppCompatActivity implements GoogleApiClient.OnC
                 } else if (itemId == R.id.mis_proyectos) {
                     fragmentActual = fragment_mis_proyectos;
                     tb.setTitle("Mis proyectos");
-                } else if (itemId == R.id.publicar) {
-                    fragmentActual = fragment_publicar;
-                    tb.setTitle("Publicar");
+                } else if (itemId == R.id.Perfil) {
+                    fragmentActual = fragment_perfil;
+                    tb.setTitle("Perfil");
                 } else if (itemId == R.id.salir) {
 
                     if (auth.getCurrentUser() != null) {

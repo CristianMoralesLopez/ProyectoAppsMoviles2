@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 
 import co.potes.icesi.startagrocol.R;
 
-public class Fragment_mensajes extends Fragment {
+public class Fragment_Perfil extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mensajes, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_perfil, container, false);
+
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

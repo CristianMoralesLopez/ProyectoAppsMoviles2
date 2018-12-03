@@ -5,15 +5,17 @@
 
         <item android:id="@+id/inicio"
             android:title="Inicio"
-            android:icon="@mipmap/imagen_home"/>
+            android:icon="@mipmap/imagen_inicioo"/>
+        <item android:id="@+id/Perfil"
+            android:title="Perfil"
+            android:icon="@mipmap/imagen_user"/>
         <item android:id="@+id/mis_proyectos"
-            android:title="Mis proyectos"/>
-            <!--android:icon="@mipmap/imagen_informe"/>-->
-        <item android:id="@+id/publicar"
-            android:title="Publicar"/>
-            <!--android:icon="@mipmap/imagen_person"/>-->
+            android:title="Mis proyectos"
+            android:icon="@mipmap/imagen_proyectos"/>
         <item android:id="@+id/salir"
-            android:title="Salir"/>
+            android:title="Salir"
+            android:icon="@mipmap/imagen_salir"/>
+
     </group>
 
 </menu>

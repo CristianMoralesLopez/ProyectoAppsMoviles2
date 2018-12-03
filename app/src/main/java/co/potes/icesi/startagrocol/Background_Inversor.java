@@ -33,12 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import co.potes.icesi.startagrocol.fragments.Fragment_Home;
-import co.potes.icesi.startagrocol.fragments.Fragment_Inversiones;
+import co.potes.icesi.startagrocol.fragments.Fragment_Perfil;
 import co.potes.icesi.startagrocol.fragments.Fragment_Proyecto_Completo;
-import co.potes.icesi.startagrocol.fragments.Fragment_Publicar;
-import co.potes.icesi.startagrocol.fragments.Fragment_mensajes;
 import co.potes.icesi.startagrocol.fragments.MensajesFragments;
-import co.potes.icesi.startagrocol.fragments.Mis_ProyectosFragment;
 import co.potes.icesi.startagrocol.fragments_inversor.Fragment_Inversion;
 import co.potes.icesi.startagrocol.fragments_inversor.Fragment_Mis_Inversiones;
 import co.potes.icesi.startagrocol.model.Proyecto;
@@ -56,7 +53,7 @@ public class Background_Inversor extends AppCompatActivity implements MensajesFr
 
     private Fragment_Home fragment_home;
     private Fragment_Inversion fragment_inversion_proyecto;
-    private Fragment_mensajes fragment_mensajes;
+    private Fragment_Perfil fragment_perfil;
     private Fragment_Proyecto_Completo fragment_proyecto_completo;
     private Fragment_Mis_Inversiones fragment_mis_inversiones;
 
@@ -115,7 +112,7 @@ public class Background_Inversor extends AppCompatActivity implements MensajesFr
 
         fragment_home = new Fragment_Home();
         fragment_mis_inversiones = new Fragment_Mis_Inversiones();
-        fragment_mensajes = new Fragment_mensajes();
+        fragment_perfil = new Fragment_Perfil();
         fragment_proyecto_completo = new Fragment_Proyecto_Completo();
         fragment_inversion_proyecto = new Fragment_Inversion();
 
@@ -150,9 +147,9 @@ public class Background_Inversor extends AppCompatActivity implements MensajesFr
                 } else if (itemId == R.id.mis_inversiones) {
                     fragmentActual = fragment_mis_inversiones;
                     tb.setTitle("Mis inversiones");
-                } else if (itemId == R.id.mensajes_inversor) {
-                    fragmentActual = fragment_mensajes;
-                    tb.setTitle("Mensajes");
+                } else if (itemId == R.id.Perfil) {
+                    fragmentActual = fragment_perfil;
+                    tb.setTitle("Perfil");
                 } else if (itemId == R.id.salir) {
 
                     if (auth.getCurrentUser() != null) {

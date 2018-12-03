@@ -5,15 +5,17 @@
 
         <item android:id="@+id/inicio"
             android:title="Inicio"
-            android:icon="@mipmap/imagen_home"/>
+            android:icon="@mipmap/imagen_inicioo"/>
+        <item android:id="@+id/Perfil"
+            android:title="Perfil"
+            android:icon="@mipmap/imagen_user"/>
         <item android:id="@+id/mis_inversiones"
-            android:title="Mis inversiones"/>
-        <!--android:icon="@mipmap/imagen_informe"/>-->
-        <item android:id="@+id/mensajes_inversor"
-            android:title="Mensajes"/>
-        <!--android:icon="@mipmap/imagen_person"/>-->
+            android:title="Mis inversiones"
+        android:icon="@mipmap/imagen_dinero"/>
         <item android:id="@+id/salir"
-            android:title="Salir"/>
+            android:title="Salir"
+            android:icon="@mipmap/imagen_salir"/>
+        />
     </group>
 
 </menu>
