@@ -1,6 +1,7 @@
 package co.potes.icesi.startagrocol.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +29,12 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import co.potes.icesi.startagrocol.Background;
+import co.potes.icesi.startagrocol.Background_Inversor;
+import co.potes.icesi.startagrocol.HomeSinRegistro;
 import co.potes.icesi.startagrocol.R;
 import co.potes.icesi.startagrocol.model.Proyecto;
+import co.potes.icesi.startagrocol.model.Usuario;
 
 
 public class Fragment_Proyecto_Completo extends Fragment {
@@ -46,6 +52,9 @@ public class Fragment_Proyecto_Completo extends Fragment {
     private FirebaseAuth auth;
     private FirebaseDatabase db;
     private EditText valorInversion;
+    private FirebaseAuth.AuthStateListener fireAuthStateListener;
+
+
 
 
     public Fragment_Proyecto_Completo() {
@@ -180,6 +189,45 @@ public class Fragment_Proyecto_Completo extends Fragment {
 
         actualizar(proyecto);
 
+        auth = FirebaseAuth.getInstance();
+
+        fireAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                    DatabaseReference reference = db.getReference().child("usuarios").child(user.getUid());
+
+
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                            String valor3 = (String) dataSnapshot.child("tipo").getValue();
+
+                            if(valor3.equals(Usuario.EMPRENDEDOR)){
+                                btnInvertir.setVisibility(View.GONE);
+                                metodoInversion.setVisibility(View.GONE);
+                                valorInversion.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+
+
+            }
+        };
 
         return v;
 
